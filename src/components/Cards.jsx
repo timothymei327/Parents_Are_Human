@@ -2,6 +2,8 @@ import { useState } from "react"
 
 const Cards = () => {
   const [picked, setPicked] = useState('')
+  const [both, setBoth] = useState(false)
+  const [used, setUsed] = useState([])
 
   let instructions = [
     "https://parentsarehuman.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F48d7f1b8-53b5-4d67-b2de-35fd8b5b21f8%2F1.png?table=block&id=2796115c-f920-4e23-ad90-d85e30c86a31&spaceId=65e2dda4-18c9-419e-a975-62ca02abb8ad&width=2000&userId=&cache=v2",
@@ -85,10 +87,65 @@ const Cards = () => {
     "https://parentsarehuman.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Ff475aa7d-5cb4-411c-aae5-62582855189a%2F73.png?table=block&id=edf43ca5-c702-4591-9d12-8d088c22978c&spaceId=65e2dda4-18c9-419e-a975-62ca02abb8ad&width=2000&userId=&cache=v2",
     "https://parentsarehuman.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F29ccd254-aa26-4457-8879-7143d1195abd%2F74.png?table=block&id=96ddcbb5-ebde-4b84-9a15-1d18ce899aa1&spaceId=65e2dda4-18c9-419e-a975-62ca02abb8ad&width=2000&userId=&cache=v2"
   ]
+
   
+  const toggleRed = () => {
+    setBoth(prevBoth => !prevBoth);
+  }
+
+
+  const pickRandom = () => {
+    if (both === false) {
+      let random = Math.floor(Math.random() * 50);
+      if (used.includes(blue[random])){
+        pickRandom()
+      } else {
+        setPicked(blue[random])
+        setUsed([...used, blue[random]])
+      }
+    } else {
+      let stack = Math.floor(Math.random() * 7);
+      if (stack===5 || stack===6){
+        let random = Math.floor(Math.random() * 20);
+        if (used.includes(red[random])){
+          pickRandom()
+        } else {
+          setPicked(red[random])
+          setUsed([...used, red[random]])
+        }
+      } else {
+        let random = Math.floor(Math.random() * 50);
+        if (used.includes(blue[random])){
+          pickRandom()
+        } else {
+          setPicked(blue[random])
+          setUsed([...used, blue[random]])
+        }
+      }
+    }
+  }
   
+
+
+
   return (
     <div>
+      <div className="gameField">
+        <img src={picked} alt='card-picked' />
+        <button onClick={toggleRed}>Red Cards</button>
+        <button onClick={pickRandom}>Random</button>
+        <button>Reset</button>
+      </div>
+      <div>
+        {used.map(item => (
+          <img src={item} alt='used-card' />
+        ))}
+      </div>
+      <div className="instructions">
+        {instructions.map( instruction => (
+          <img src={instruction} alt='instruction-card'/>
+        ))}
+      </div>
     </div>
   )
 }
