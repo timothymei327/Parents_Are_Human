@@ -142,8 +142,12 @@ const Cards = ({used, setUsed, picked, setPicked}) => {
           {picked ? <img src={picked} alt='card-picked' /> : <h2>Click a button to start!</h2>}
         </div>
         <div className="buttons">
-          <button onClick={pickBlue} id='blue-button'>Blue Card</button>
-          <button onClick={pickRed} id='red-button'>Red Card</button>
+          {blue.every( blueCard => used.includes(blueCard)) ? <button onClick={pickBlue} id='blue-button' disabled>Empty ☹</button> : 
+            <button onClick={pickBlue} id='blue-button'>Blue Card</button>
+          }
+          {red.every( redCard => used.includes(redCard)) ? <button onClick={pickRed} id='red-button' disabled>Empty ☹</button> : 
+            <button onClick={pickRed} id='red-button'>Red Card</button>
+          }
           <button onClick={pickRandom} id='random'>Random</button>
           <button onClick={reset} id='reset'>Reset</button>
         </div>
