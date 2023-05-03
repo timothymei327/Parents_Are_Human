@@ -84,51 +84,49 @@ const Cards = ({used, setUsed, picked, setPicked}) => {
     }
   }
 
-  const pickRandom = () => {
-      let stack = Math.floor(Math.random() * 7);
-      if (stack===5 || stack===6){
-        let random = Math.floor(Math.random() * 20);
-        if (used.includes(red[random])){
-          pickRandom()
-        } else {
-          setPicked(red[random])
-          setUsed([red[random], ...used])
-          checkWin()
-        }
-      } else {
-        let random = Math.floor(Math.random() * 50);
-        if (used.includes(blue[random])){
-          pickRandom()
-        } else {
-          setPicked(blue[random])
-          setUsed([blue[random], ...used])
-          checkWin()
-        }
-      }
-    }
-
   const pickBlue = () => {
-      let random = Math.floor(Math.random() * 50);
+      let random = Math.floor(Math.random() * blue.length);
       if (used.includes(blue[random])){
         pickBlue()
       } else {
         setPicked(blue[random])
         setUsed([blue[random], ...used])
+        blue.splice(random, 1)
         checkWin()
       }
     }
 
   const pickRed = () => {
-    let random = Math.floor(Math.random() * 20);
+    let random = Math.floor(Math.random() * red.length);
     if (used.includes(red[random])){
       pickRed()
     } else {
       setPicked(red[random])
       setUsed([red[random], ...used])
+      red.splice(random, 1)
       checkWin()
     }
   }
   
+  const pickRandom = () => {
+    if (blue.length === 0 && red.length === 0) {
+      return null;
+    } else if (blue.length === 0) {
+      pickRed();
+    } else if (red.length === 0) {
+      pickBlue();
+    } else {
+      let randomDeck = Math.random() < 0.5 ? "blue" : "red";
+      if (randomDeck === "blue") {
+        pickBlue();
+      } else {
+        pickRed();
+      }
+    }
+  };
+  
+
+
   const reset = () => {
     setUsed([])
     setPicked('')
