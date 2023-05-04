@@ -8,8 +8,9 @@ const Instructions = () => {
 
   return (
     <div className="instructions">
+      <h1>Instructions</h1>
     {instructions.map( instruction => (
-      <img src={instruction} alt='instruction-card'/>
+      <img src={instruction} alt='instruction-card'key={instruction} />
     ))}
   </div>
   )

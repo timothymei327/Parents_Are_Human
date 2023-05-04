@@ -1,3 +1,5 @@
+import Instructions from "./Instructions"
+
 const Cards = ({used, setUsed, picked, setPicked}) => {
 
   let blue = [
